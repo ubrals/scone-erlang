@@ -1,0 +1,37 @@
+--- otp_src_23.1/erts/emulator/sys/unix/erl_child_setup.c	2021-04-05 16:14:46.140447713 +0000
++++ otp_src_23.1/erts/emulator/sys/unix/erl_child_setup.c	2021-04-05 16:17:09.255277722 +0000
+@@ -425,7 +425,7 @@
+ main(int argc, char *argv[])
+ {
+     /* This fd should be open from beam */
+-    int uds_fd = 3, max_fd = 3;
++    int uds_fd = 3, max_fd = 3, mig_pid = getpid(), mig_child = 0; // mig 05-apr-2021 save child pid to wait() kill()
+ #ifndef HAVE_CLOSEFROM
+     int i;
+     DIR *dir;
+@@ -548,6 +548,7 @@
+             errno = 0;
+ 
+             os_pid = fork();
++            mig_child = os_pid; // mig 05-apr-2021 child pid
+             if (os_pid == 0)
+                 start_new_child(pipes);
+ 
+@@ -600,6 +601,17 @@
+                 DEBUG_PRINT("Failed to write to uds: %d (%d)", uds_fd, errno);
+             }
+         }
++        // mig 05-apr-2021 check if child has finished and exit
++        int status;
++        pid_t p_child = waitpid(mig_child, &status, WNOHANG);
++        if(p_child == mig_child){
++            if(WIFEXITED(status)) { return 0;
++            } else if(WIFSIGNALED(status)) { fprintf(stderr,"erl_child_setup: WIFSIGNALED: failed with error %d. PID %d PPID %d\r\n", errno, getpid(), getppid()); _exit(status);
++            } else if(WIFSTOPPED(status)) { fprintf(stderr,"erl_child_setup: WIFSTOPPED: failed with error %d. PID %d PPID %d\r\n", errno, getpid(), getppid()); _exit(status);
++        }
++        } else if(p_child == 0){
++            fprintf(stderr,"erl_child_setup: UNKNOWN: failed with error %d. PID %d PPID %d. Child ok? _exit 0!\r\n", errno, getpid(), getppid()); _exit(0); //kill(getpid(), SIGKILL);
++        }
+     }
+     return 1;
+ }

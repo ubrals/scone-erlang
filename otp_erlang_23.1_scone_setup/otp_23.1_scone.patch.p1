@@ -1,0 +1,297 @@
+--- otp_src_23.1/erts/emulator/sys/unix/erl_child_setup.c
++++ otp_src_23.1/erts/emulator/sys/unix/erl_child_setup.c
+@@ -59,6 +59,8 @@
+ #include <sys/types.h>
+ #include <sys/socket.h>
+ 
++#include <unistd.h>
++
+ #define WANT_NONBLOCKING
+ 
+ #include "erl_driver.h"
+@@ -334,17 +336,25 @@
+ 
+     if (args) {
+         /* spawn_executable */
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execve [%s]\n", __FILE__, __LINE__, cmd);
++#endif
+         execve(cmd, args, new_environ);
++        _exit(0);
+     } else {
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execle [%s]\n", __FILE__, __LINE__, SHELL);
++#endif
+         execle(SHELL, "sh", "-c", cmd, (char *) NULL, new_environ);
++        _exit(0);
+     }
+ 
+     DEBUG_PRINT("exec error: %d",errno);
+     _exit(errno);
+ 
+ child_error:
+-    fprintf(stderr,"erl_child_setup: failed with error %d on line %d\r\n",
+-            errno, errln);
++    fprintf(stderr,"erl_child_setup: failed with error %d on line %d. PID %d PPID %d\r\n",
++            errno, errln, getpid(), getppid());
+     _exit(errno);
+ }
+ 
+--- otp_src_23.1/erts/emulator/sys/unix/sys_drivers.c
++++ otp_src_23.1/erts/emulator/sys/unix/sys_drivers.c
+@@ -77,6 +77,9 @@
+ 
+ #include "erl_child_setup.h"
+ 
++#include <unistd.h>
++
++
+ #if defined IOV_MAX
+ #define MAXIOV IOV_MAX
+ #elif defined UIO_MAXIOV
+@@ -1687,8 +1690,20 @@
+ 
+     unbind = erts_sched_bind_atfork_prepare();
+ 
++    int blocking_pipe[2];
++    pipe(blocking_pipe);
++
+     i = fork();
++#ifdef DEBUGFORKLOCK
++    fprintf(stderr, "[scone-debug] %s:%d: fork done!\n", __FILE__, __LINE__);
++#endif /* DEBUGFORKLOCK */
+ 
++    // mig 08-mar-2021 adding sleep() for parent
++    if (i != 0) {
++        unsigned int sl=5;
++        sleep(sl);
++    }
++
+     if (i == 0) {
+         /* The child */
+         char *cs_argv[FORKER_ARGV_NO_OF_ARGS] =
+@@ -1713,9 +1728,34 @@
+     (void) setsid();
+ #endif
+ 
++        close(blocking_pipe[0]);
++#ifdef DEBUGFORKLOCK
++        fprintf(stderr, "[scone-debug] %s:%d - on child!\n", __FILE__, __LINE__);
++#endif /* DEBUGFORKLOCK */
++        write(blocking_pipe[1], "1", sizeof(uint8_t));
++        close(blocking_pipe[1]);
++
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execv [%s]\n", __FILE__, __LINE__, child_setup_prog);
++#endif
++
+         execv(child_setup_prog, cs_argv);
+         _exit(1);
+     }
++    // TODO: mig 08-mar-2021 changed datatype from uint8_t to int
++    int blocking_buf;
++#ifdef DEBUGFORKLOCK
++    fprintf(stderr, "[scone-debug] parent waiting!\n");
++#endif
++    // TODO: I can't figure why closing this blocking_pipe[1] is
++    // breaking the patch, even after the while block.
++    // TODO: need a better while condition.
++    // close(blocking_pipe[1]);
++    // TODO: mig 08-mar-2021 problem seemed to be related to datatype
++    while (read(blocking_pipe[0], &blocking_buf, sizeof(uint8_t)) != 1) {}
++    close(blocking_pipe[0]);
++    // TODO: mig 08-mar-2021 closing pipe after while() is working now
++    close(blocking_pipe[1]);
+ 
+     erts_sched_bind_atfork_parent(unbind);
+ 
+--- otp_src_23.1/erts/etc/common/ct_run.c
++++ otp_src_23.1/erts/etc/common/ct_run.c
+@@ -442,6 +442,9 @@
+     }
+     return status;
+ #else
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execvp [%s]\n", __FILE__, __LINE__, progname);
++#endif
+     execvp(progname, argv);
+     error("Error %d executing \'%s\'.", errno, progname);
+     return 2;
+--- otp_src_23.1/erts/etc/common/dialyzer.c
++++ otp_src_23.1/erts/etc/common/dialyzer.c
+@@ -418,6 +418,9 @@
+     }
+     return status;
+ #else
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execvp [%s]\n", __FILE__, __LINE__, progname);
++#endif
+     execvp(progname, argv);
+     error("Error %d executing \'%s\'.", errno, progname);
+     return 2;
+--- otp_src_23.1/erts/etc/common/erlc.c
++++ otp_src_23.1/erts/etc/common/erlc.c
+@@ -612,6 +612,9 @@
+     }
+     return status;
+ #else
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execvp [%s]\n", __FILE__, __LINE__, progname);
++#endif
+     execvp(progname, argv);
+     error("Error %d executing \'%s\'.", errno, progname);
+     return 2;
+@@ -994,6 +997,9 @@
+     }
+ #else
+     if (fork() == 0) {
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execvp [%s]\n", __FILE__, __LINE__, eargv[0]);
++#endif
+         execvp(eargv[0], eargv);
+         error("Error %d executing \'%s\'.", errno, progname);
+     }
+--- otp_src_23.1/erts/etc/common/erlexec.c
++++ otp_src_23.1/erts/etc/common/erlexec.c
+@@ -728,6 +728,9 @@
+ 			argv[i] = "man";
+ 			erts_snprintf(tmpStr, sizeof(tmpStr), "%s/man", rootdir);
+ 			set_env("MANPATH", tmpStr);
++#ifdef DEBUGEXEC
++			fprintf(stderr, "[scone-debug] %s:%d execvp [man]\n", __FILE__, __LINE__);
++#endif
+ 			execvp("man", argv+i);
+ 			error("Could not execute the 'man' command.");
+ #endif
+@@ -1168,6 +1171,9 @@
+ 	close(2);
+ 	open("/dev/null", O_WRONLY);
+ #ifdef DEBUG
++#ifdef DEBUGEXEC
++	fprintf(stderr, "[scone-debug] %s:%d execvp [%s]\n", __FILE__, __LINE__, emu);
++#endif
+ 	execvp(emu, Eargsp); /* "xterm ..." needs to search the path */
+ #endif
+     }
+@@ -1175,6 +1181,9 @@
+     else
+ #endif
+     {
++#ifdef DEBUGEXEC
++	fprintf(stderr, "[scone-debug] %s:%d execv [%s]\n", __FILE__, __LINE__, emu);
++#endif
+ 	execv(emu, Eargsp);
+     }
+     if (errno == ENOENT) {
+--- otp_src_23.1/erts/etc/common/escript.c
++++ otp_src_23.1/erts/etc/common/escript.c
+@@ -664,6 +664,9 @@
+     }
+     return status;
+ #else
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execvp [%s]\n", __FILE__, __LINE__, progname);
++#endif
+     execvp(progname, argv);
+     error("Error %d executing \'%s\'.", errno, progname);
+     return 2;
+--- otp_src_23.1/erts/etc/common/typer.c
++++ otp_src_23.1/erts/etc/common/typer.c
+@@ -336,6 +336,9 @@
+     }
+     return status;
+ #else
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execvp [%s]\n", __FILE__, __LINE__, progname);
++#endif
+     execvp(progname, argv);
+     error("Error %d executing \'%s\'.", errno, progname);
+     return 2;
+--- otp_src_23.1/erts/etc/unix/dyn_erl.c
++++ otp_src_23.1/erts/etc/unix/dyn_erl.c
+@@ -389,6 +389,10 @@
+     efree(abspath);
+     efree(bindir);
+ 
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execvp [%s]\n", __FILE__, __LINE__, erlexec);
++#endif
++
+     execvp(erlexec, argv);
+     error("Error %d executing \'%s\'.", errno, erlexec);
+     return 2;
+--- otp_src_23.1/erts/etc/unix/run_erl.c
++++ otp_src_23.1/erts/etc/unix/run_erl.c
+@@ -1124,6 +1124,9 @@
+   if (stdstatus) {
+       fclose(stdstatus);
+   }
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execv [%s]\n", __FILE__, __LINE__, sh);
++#endif
+   execv(sh, argv);
+   if (run_daemon) {
+       OPEN_SYSLOG();
+--- otp_src_23.1/erts/etc/unix/setuid_socket_wrap.c
++++ otp_src_23.1/erts/etc/unix/setuid_socket_wrap.c
+@@ -252,6 +252,9 @@
+ 	    free(sl);
+ 	}
+ 	newargv[i] = (char *)NULL;
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execv [%s]\n", __FILE__, __LINE__, run_prog);
++#endif
+ 	execv(run_prog, newargv);
+ 	perror("exec");
+ 	exit(1);
+--- otp_src_23.1/erts/test/utils/gccifier.c
++++ otp_src_23.1/erts/test/utils/gccifier.c
+@@ -307,6 +307,10 @@
+     fflush(stdout);
+ 
+ #ifdef USE_EXEC
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execl [/bin/sh]\n", __FILE__, __LINE__);
++#endif
++
+     (void) execl("/bin/sh", "sh", "-c", cmd, (char *) NULL);
+     perror(NULL);
+     res = 1;
+--- otp_src_23.1/lib/erl_interface/src/prog/erl_start.c
++++ otp_src_23.1/lib/erl_interface/src/prog/erl_start.c
+@@ -481,6 +481,9 @@
+   }
+ 
+   /* start the system */
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execvp [%s]\n", __FILE__, __LINE__, argv[0]);
++#endif
+   execvp(argv[0], argv);
+ 
+   if (flags & ERL_START_DEBUG) {
+--- otp_src_23.1/lib/erl_interface/test/all_SUITE_data/gccifier.c
++++ otp_src_23.1/lib/erl_interface/test/all_SUITE_data/gccifier.c
+@@ -307,6 +307,10 @@
+     fflush(stdout);
+ 
+ #ifdef USE_EXEC
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execl [/bin/sh]\n", __FILE__, __LINE__);
++#endif
++
+     (void) execl("/bin/sh", "sh", "-c", cmd, (char *) NULL);
+     perror(NULL);
+     res = 1;
+--- otp_src_23.1/lib/inets/test/inets_socketwrap_SUITE_data/setuid_socket_wrap.c
++++ otp_src_23.1/lib/inets/test/inets_socketwrap_SUITE_data/setuid_socket_wrap.c
+@@ -251,6 +251,10 @@
+ 	    free(sl);
+ 	}
+ 	newargv[i] = (char *)NULL;
++#ifdef DEBUGEXEC
++fprintf(stderr, "[scone-debug] %s:%d execv [%s]\n", __FILE__, __LINE__, run_prog);
++#endif
++
+ 	execv(run_prog, newargv);
+ 	perror("exec");
+ 	exit(1);
