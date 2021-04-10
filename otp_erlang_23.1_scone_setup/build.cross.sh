@@ -20,8 +20,6 @@ cd .. \
 && \
 patch -p0 < otp_23.1_scone.patch.p1 \
 && \
-patch -p0 < otp_23.1_scone.patch.p2 \
-&& \
 cd - \
 && \
 CC=/usr/local/bin/gcc CXX=/usr/local/bin/g++ SCONE_FORK=1 ./configure --disable-dirty-schedulers --disable-plain-emulator --disable-kernel-poll --build="x86_64-unknown-linux-gnu" --host="x86_64-linux-musl" --prefix="/opt/erlang" \

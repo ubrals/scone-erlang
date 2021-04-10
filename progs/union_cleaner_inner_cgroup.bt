@@ -1,0 +1,53 @@
+BEGIN
+{
+	@mycpid = cpid;
+	@DEBUG = 0;
+	@indexed_by="[comm, pid, cpid, tid, cgroup, curtask, probe] = nsecs";
+	if(@DEBUG==1){
+		printf("DIRECTION COMM PID CPID TID CURTASK ");
+		printf("PROBE ENTER/LEAVE(NS)\n");
+	}
+}
+
+tracepoint:syscalls:sys_enter_clone*, tracepoint:syscalls:sys_enter_*fork*, tracepoint:syscalls:sys_enter_*exec*, tracepoint:syscalls:sys_enter_*exit*, tracepoint:syscalls:sys_enter_*kill*
+	/ cpid == @mycpid /
+{ 
+	$enter=nsecs;
+	@start[comm,pid,cpid,tid,cgroup,curtask,probe] = $enter;
+	if(@DEBUG==1){
+		printf("ENTER "); 
+		printf("%s ", comm); 
+		printf("%d ", pid); 
+		printf("%d ", cpid); 
+		printf("%d ", tid); 
+		printf("%d ", cgroup); 
+		printf("%d ", (int64)curtask); 
+		printf("%s ", probe); 
+		printf("%d\n", @start[comm,pid,cpid,tid,cgroup,curtask,probe]); 
+	}
+}
+
+tracepoint:syscalls:sys_exit_clone*, tracepoint:syscalls:sys_exit_*fork*, tracepoint:syscalls:sys_exit_*exec*, tracepoint:syscalls:sys_exit_*exit*, tracepoint:syscalls:sys_exit_*kill*
+	/ cpid == @mycpid /
+{ 
+	$leave=nsecs;
+	@end[comm,pid,cpid,tid,cgroup,curtask,probe] = $leave;
+	if(@DEBUG==1){
+		printf("LEAVE "); 
+		printf("%s ", comm); 
+		printf("%d ", pid); 
+		printf("%d ", cpid); 
+		printf("%d ", tid); 
+		printf("%d ", cgroup); 
+		printf("%d ", (int64)curtask); 
+		printf("%s ", probe); 
+		printf("%d\n", @end[comm,pid,cpid,tid,cgroup,curtask,probe]); 
+	}
+}
+
+END
+{
+	if(@DEBUG==1){
+		printf("\n");
+	}
+}

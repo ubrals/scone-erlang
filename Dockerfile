@@ -61,6 +61,7 @@ RUN echo "|--> Preparing for test ERLANG HELLO WORLD"
 WORKDIR /home/builder
 ADD ./progs ./progs
 RUN sudo chown -Rf builder:abuild progs; \
+	sudo chown go+w progs; \
 	cd progs; \
 	SCONE_HEAP=2G SCONE_FORK=1 /opt/erlang/bin/erlc helloworld.erl \
 	|| echo;
