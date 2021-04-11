@@ -1,0 +1,367 @@
+struct pointer{
+        char *arg0 ;
+        char *arg1 ;
+        char *arg2 ;
+        char *arg3 ;
+        char *arg4 ;
+        char *arg5 ;
+        char *arg6 ;
+        char *arg7 ;
+        char *arg8 ;
+        char *arg9 ;
+        char *arg10;
+        char *arg11;
+        char *arg12;
+        char *arg13;
+        char *arg14;
+        char *arg15;
+        char *arg16;
+        char *arg17;
+        char *arg18;
+        char *arg19;
+        char *arg20;
+};
+
+BEGIN {
+    @my_process[0]=cpid;
+    @my_process_count=1;
+    @process_parents[cpid] = cpid;
+}
+
+tracepoint:syscalls:sys_enter_execve {
+       $i=0;
+       $evaluate=0;
+       if( @my_process[pid] > 0 ) {
+        printf("known process");
+       }
+}
+
+tracepoint:syscalls:sys_exit_fork {
+    if( args->ret == 0 ) {
+        return;
+    }
+    if( @process_parents[pid] > 0 ) {
+        @process_parents[args->ret] = pid;
+        @my_process[@my_process_count] = args->ret;
+        @my_process_count++;
+    }
+}
+
+//uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:__scone_syscall_shielded /(arg0==59) && (pid==cpid)/ {/*_NR_execve*/
+uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:__scone_syscall_shielded {/*_NR_execve*/
+        //printf("path %s\n", str(args->filename));
+        //printf("arguments address %p\n", args->argv);
+        //printf("environment address %p\n", args->envp);
+        //$fname = str(args->filename);
+        $fname = str(arg1);
+        $k = 0;
+        while($k < 2) {
+//                if( strncmp( $fname, "myecho", 6) != 0 ) {
+                if( arg0==0x3b ) {
+                        printf("entering %s\n", "/opt/scone/lib/libc.scone-x86_64.so.1:__scone_syscall_shielded");
+                        //$val=(struct pointer*)args->argv;
+                        $i=0;
+
+                        if(arg0 == 0) { // if($val->arg0 == 0) {
+                                break;
+                        } else {
+                        //printf("index %d address %lx value %s\n",$i, $val->arg0, str($val->arg0));
+                        printf("index %d address %lx value %s\n",$i, arg0, str(arg0));
+                        }
+
+                        $i=$i+1;
+                        if(arg1 == 0) { // if($val->arg1 == 0) {
+                                break;
+                        } else {
+                        //printf("index %d address %lx value %s\n",$i, $val->arg1, str($val->arg1));
+                        printf("index %d address %lx value %s\n",$i, arg1, str(arg1));
+                        }
+
+                        $i=$i+1;
+                        if(arg2 == 0) { // if($val->arg2 == 0) {
+                                break;
+                        } else {
+                        //printf("index %d address %lx value %s\n",$i, $val->arg2, str($val->arg2));
+                        $val=(struct pointer*)arg2;
+                        $j=0;
+                        if($val->arg0 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg0, str($val->arg0));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg1 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg1, str($val->arg1));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg2 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg2, str($val->arg2));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg3 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg3, str($val->arg3));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg4 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg4, str($val->arg4));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg5 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg5, str($val->arg5));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg6 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg6, str($val->arg6));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg7 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg7, str($val->arg7));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg8 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg8, str($val->arg8));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg9 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg9, str($val->arg9));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg10 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg10, str($val->arg10));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg11 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg11, str($val->arg11));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg12 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg12, str($val->arg12));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg13 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg13, str($val->arg13));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg14 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg14, str($val->arg14));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg15 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg15, str($val->arg15));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg16 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg16, str($val->arg16));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg17 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg17, str($val->arg17));
+                        }
+
+/****
+                        $j=$j+1;
+                        if($val->arg18 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg18, str($val->arg18));
+                        }
+
+                        $j=$j+1;
+                        if($val->arg19 == 0) {
+                                break;
+                        } else {
+                        printf("index argv %d address %lx value %s\n",$j, $val->arg19, str($val->arg19));
+                        }
+****/
+
+                        printf("\n");
+                        }
+
+		}
+
+                printf("handling environment pointers\n");
+                        $i=$i+1;
+                        if(arg3 == 0) { // if($val->arg3 == 0) {
+                                break;
+                        }
+                        //printf("index %d address %lx value %s\n",$i, $val->arg2, str($val->arg2));
+                        $val=(struct pointer*)arg3;
+                        $j=0;
+                        if($val->arg0 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg0, str($val->arg0));
+
+                        $j=$j+1;
+                        if($val->arg1 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg1, str($val->arg1));
+
+                        $j=$j+1;
+                        if($val->arg2 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg2, str($val->arg2));
+
+                        $j=$j+1;
+                        if($val->arg3 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg3, str($val->arg3));
+
+                        $j=$j+1;
+                        if($val->arg4 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg4, str($val->arg4));
+
+                        $j=$j+1;
+                        if($val->arg5 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg5, str($val->arg5));
+
+                        $j=$j+1;
+                        if($val->arg6 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg6, str($val->arg6));
+
+                        $j=$j+1;
+                        if($val->arg7 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg7, str($val->arg7));
+
+                        $j=$j+1;
+                        if($val->arg8 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg8, str($val->arg8));
+
+                        $j=$j+1;
+                        if($val->arg9 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg9, str($val->arg9));
+
+                        $j=$j+1;
+                        if($val->arg10 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg10, str($val->arg10));
+
+                        $j=$j+1;
+                        if($val->arg11 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg11, str($val->arg11));
+
+                        $j=$j+1;
+                        if($val->arg12 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg12, str($val->arg12));
+
+                        $j=$j+1;
+                        if($val->arg13 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg13, str($val->arg13));
+
+                        $j=$j+1;
+                        if($val->arg14 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg14, str($val->arg14));
+
+                        $j=$j+1;
+                        if($val->arg15 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg15, str($val->arg15));
+
+                        $j=$j+1;
+                        if($val->arg16 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg16, str($val->arg16));
+
+                        $j=$j+1;
+                        if($val->arg17 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg17, str($val->arg17));
+
+                        $j=$j+1;
+                        if($val->arg18 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg18, str($val->arg18));
+
+                        $j=$j+1;
+                        if($val->arg19 == 0) {
+                                break;
+                        }
+                        printf("index envp %d address %lx value %s\n",$j, $val->arg19, str($val->arg19));
+
+                //}
+
+                $k = $k + 1;
+                break;
+        }
+}
+
+
