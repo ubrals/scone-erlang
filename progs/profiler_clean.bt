@@ -48,171 +48,147 @@ tracepoint:syscalls:sys_exit_fork {
 }
 
 uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:__scone_syscall_shielded {/*_NR_execve*/
-	$gotoenvp=0;
 	$k = 0;
 	while($k < 1) {
 		if( arg0==0x3b ) {
 			printf("entering %s\n", "/opt/scone/lib/libc.scone-x86_64.so.1:__scone_syscall_shielded");
 			$i=0;
 			if(arg0 == 0) {
-				$gotoenvp=1;
-			break;
+				break;
 			} else {
-			printf("index %d address %lx value %s\n",$i, arg0, str(arg0));
+				printf("index %d address %lx value %s:<< PID:%d CPID:%d COMM:%s\n",$i, arg0, str(arg0), pid, cpid, comm);
 			}	
 			$i=$i+1;
 			if(arg1 == 0) {
-				$gotoenvp=1;
-			break;
+				break;
 			} else {
-			printf("index %d address %lx value %s\n",$i, arg1, str(arg1));
+				printf("index %d address %lx value %s:<< PID:%d CPID:%d COMM:%s\n",$i, arg1, str(arg1), pid, cpid, comm);
 			}	
 			$i=$i+1;
 			if(arg2 == 0) {
-				$gotoenvp=1;
-			break;
+				break;
 			} else {
 				$val=(struct pointer*)arg2;
 				$j=0;
 				if($val->arg0 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg0, str($val->arg0));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg0, str($val->arg0));
 				}	
 				$j=$j+1;
 				if($val->arg1 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg1, str($val->arg1));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg1, str($val->arg1));
 				}	
 				$j=$j+1;
 				if($val->arg2 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg2, str($val->arg2));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg2, str($val->arg2));
 				}	
 				$j=$j+1;
 				if($val->arg3 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg3, str($val->arg3));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg3, str($val->arg3));
 				}	
 				$j=$j+1;
 				if($val->arg4 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg4, str($val->arg4));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg4, str($val->arg4));
 				}	
 				$j=$j+1;
 				if($val->arg5 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg5, str($val->arg5));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg5, str($val->arg5));
 				}	
 				$j=$j+1;
 				if($val->arg6 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg6, str($val->arg6));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg6, str($val->arg6));
 				}	
 				$j=$j+1;
 				if($val->arg7 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg7, str($val->arg7));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg7, str($val->arg7));
 				}	
 				$j=$j+1;
 				if($val->arg8 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg8, str($val->arg8));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg8, str($val->arg8));
 				}	
 				$j=$j+1;
 				if($val->arg9 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg9, str($val->arg9));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg9, str($val->arg9));
 				}	
 				$j=$j+1;
 				if($val->arg10 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg10, str($val->arg10));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg10, str($val->arg10));
 				}	
 				$j=$j+1;
 				if($val->arg11 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg11, str($val->arg11));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg11, str($val->arg11));
 				}	
 				$j=$j+1;
 				if($val->arg12 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg12, str($val->arg12));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg12, str($val->arg12));
 				}	
 				$j=$j+1;
 				if($val->arg13 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg13, str($val->arg13));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg13, str($val->arg13));
 				}	
 				$j=$j+1;
 				if($val->arg14 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg14, str($val->arg14));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg14, str($val->arg14));
 				}	
 				$j=$j+1;
 				if($val->arg15 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg15, str($val->arg15));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg15, str($val->arg15));
 				}	
 				$j=$j+1;
 				if($val->arg16 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg16, str($val->arg16));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg16, str($val->arg16));
 				}	
 				$j=$j+1;
 				if($val->arg17 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg17, str($val->arg17));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg17, str($val->arg17));
 				}	
 /****
 				$j=$j+1;
 				if($val->arg18 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg18, str($val->arg18));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg18, str($val->arg18));
 				}			
 				$j=$j+1;
 				if($val->arg19 == 0) {
-					$gotoenvp=1;
-				break;
+					break;
 				} else {
-				printf("index argv %d address %lx value %s\n",$j, $val->arg19, str($val->arg19));
+					printf("index argv %d address %lx value %s\n",$j, $val->arg19, str($val->arg19));
 				}
 ****/
 
@@ -229,114 +205,137 @@ uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:__scone_syscall_shielded {/*_NR_exe
 	$k = 0;
 	while($k < 1) {
 		if( arg0==0x3b ) {
-		printf("handling environment pointers\n");
-		$gotoend=0;
-		$i=$i+1;
-		if(arg3 == 0) {
-		break;
-		} else {
-			$val=(struct pointer*)arg3;
-			$j=0;
-			if($val->arg0 == 0) {
+			printf("handling environment pointers\n");
+			$i=$i+1;
+			if(arg3 == 0) {
 			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg0, str($val->arg0
-			$j=$j+1;
-			if($val->arg1 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg1, str($val->arg1
-			$j=$j+1;
-			if($val->arg2 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg2, str($val->arg2
-			$j=$j+1;
-			if($val->arg3 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg3, str($val->arg3
-			$j=$j+1;
-			if($val->arg4 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg4, str($val->arg4
-			$j=$j+1;
-			if($val->arg5 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg5, str($val->arg5
-			$j=$j+1;
-			if($val->arg6 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg6, str($val->arg6
-			$j=$j+1;
-			if($val->arg7 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg7, str($val->arg7
-			$j=$j+1;
-			if($val->arg8 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg8, str($val->arg8
-			$j=$j+1;
-			if($val->arg9 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg9, str($val->arg9
-			$j=$j+1;
-			if($val->arg10 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg10, str($val->arg10
-			$j=$j+1;
-			if($val->arg11 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg11, str($val->arg11
-			$j=$j+1;
-			if($val->arg12 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg12, str($val->arg12
-			$j=$j+1;
-			if($val->arg13 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg13, str($val->arg13
-			$j=$j+1;
-			if($val->arg14 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg14, str($val->arg14
-			$j=$j+1;
-			if($val->arg15 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg15, str($val->arg15
-			$j=$j+1;
-			if($val->arg16 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg16, str($val->arg16
-			$j=$j+1;
-			if($val->arg17 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg17, str($val->arg17
-			$j=$j+1;
-			if($val->arg18 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg18, str($val->arg18
-			$j=$j+1;
-			if($val->arg19 == 0) {
-			break;
-			}
-			printf("index envp %d address %lx value %s\n",$j, $val->arg19, str($val->arg19
-		}
+			} else {
+				$val=(struct pointer*)arg3;
+				$j=0;
+				if($val->arg0 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg0, str($val->arg0));
+				}			
+				$j=$j+1;
+				if($val->arg1 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg1, str($val->arg1));
+				}			
+				$j=$j+1;
+				if($val->arg2 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg2, str($val->arg2));
+				}			
+				$j=$j+1;
+				if($val->arg3 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg3, str($val->arg3));
+				}			
+				$j=$j+1;
+				if($val->arg4 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg4, str($val->arg4));
+				}			
+				$j=$j+1;
+				if($val->arg5 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg5, str($val->arg5));
+				}			
+				$j=$j+1;
+				if($val->arg6 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg6, str($val->arg6));
+				}			
+				$j=$j+1;
+				if($val->arg7 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg7, str($val->arg7));
+				}			
+				$j=$j+1;
+				if($val->arg8 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg8, str($val->arg8));
+				}			
+				$j=$j+1;
+				if($val->arg9 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg9, str($val->arg9));
+				}			
+				$j=$j+1;
+				if($val->arg10 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg10, str($val->arg10));
+				}			
+				$j=$j+1;
+				if($val->arg11 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg11, str($val->arg11));
+				}			
+				$j=$j+1;
+				if($val->arg12 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg12, str($val->arg12));
+				}			
+				$j=$j+1;
+				if($val->arg13 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg13, str($val->arg13));
+				}			
+				$j=$j+1;
+				if($val->arg14 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg14, str($val->arg14));
+				}			
+				$j=$j+1;
+				if($val->arg15 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg15, str($val->arg15));
+				}			
+				$j=$j+1;
+				if($val->arg16 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg16, str($val->arg16));
+				}			
+				$j=$j+1;
+				if($val->arg17 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg17, str($val->arg17));
+				}			
+				$j=$j+1;
+				if($val->arg18 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg18, str($val->arg18));
+				}			
+				$j=$j+1;
+				if($val->arg19 == 0) {
+					break;
+				} else {
+					printf("index envp %d address %lx value %s\n",$j, $val->arg19, str($val->arg19));
+				}
+
+				printf("\n");
+			} // if arg3
+
+		} // if arg0 0x3b
 
 		$k = $k + 1;
 		break;
