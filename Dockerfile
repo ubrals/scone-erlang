@@ -7,12 +7,16 @@ FROM pamenas/perf:cross_compiler_mapper_sync_fork_heap
 
 
 ##################################################################
-RUN sudo apk add sudo \
+USER root
+
+#RUN sudo apk add sudo \
+RUN apk add sudo \
 	autoconf \
 	ncurses-dev \
 	linux-headers \
 	shadow \
 	strace
+RUN echo "root       ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 RUN sudo useradd -ms /bin/bash erlanger; \
 	sudo passwd -d erlanger; \
@@ -61,9 +65,11 @@ RUN echo "|--> Preparing for test ERLANG HELLO WORLD"
 WORKDIR /home/builder
 ADD ./progs ./progs
 RUN sudo chown -Rf builder:abuild progs; \
-	sudo chown go+w progs; \
+	sudo chmod go+w progs; \
 	cd progs; \
 	SCONE_HEAP=2G SCONE_FORK=1 /opt/erlang/bin/erlc helloworld.erl \
 	|| echo;
+
+USER builder
 ##################################################################
 

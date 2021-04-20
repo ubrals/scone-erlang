@@ -1,0 +1,272 @@
+698   [00007f85af562325] execve("/opt/erlang/bin/erl", ["erl", "+S", "1:1", "+A", "1", "-noshell", "-s", "helloworld", "start"], ["SUDO_GID=1000", "MAIL=/var/mail/root", "USER=root", "HOSTNAME=e350d50f676b", "SHLVL=2", "HOME=/root", "PS1=\\u@\\h:\\w $ ", "SUDO_UID=1000", "LOGNAME=root", "TERM=xterm", "SCONE_HEAP=2G", "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/erlang/bin", "SUDO_COMMAND=/mnt/bpft/bpftrace_static --include /mnt/bpft/missing_types_mig.h union_cleaner_inner_cgroup_profiler.bt -o"..., "SHELL=/bin/ash", "SUDO_USER=builder", "PWD=/home/builder/progs", "SCONE_FORK=1"]) = 0
+698   [00007fb94e387f92] set_tid_address(0x7fb94e401314) = 698
+698   [00007fb94e3a0ca4] mprotect(0x7fb94e3fd000, 4096, PROT_READ) = 0
+698   [00007fb94e3a0ca4] mprotect(0x560d56079000, 16384, PROT_READ) = 0
+698   [00007fb94e3c2915] getuid()       = 0
+698   [00007fb94e3c28f8] getppid()      = 695
+698   [00007fb94e3b15dd] stat("/home/builder/progs", {st_dev=makedev(0, 0x10c), st_ino=4194509, st_mode=S_IFDIR|S_ISGID|0777, st_nlink=1, st_uid=1000, st_gid=300, st_blksize=4096, st_blocks=8, st_size=4096, st_atime=1618920213 /* 2021-04-20T12:03:33.800881867+0000 */, st_atime_nsec=800881867, st_mtime=1618920543 /* 2021-04-20T12:09:03.906225782+0000 */, st_mtime_nsec=906225782, st_ctime=1618920543 /* 2021-04-20T12:09:03.906225782+0000 */, st_ctime_nsec=906225782}) = 0
+698   [00007fb94e3b15dd] stat(".", {st_dev=makedev(0, 0x10c), st_ino=4194509, st_mode=S_IFDIR|S_ISGID|0777, st_nlink=1, st_uid=1000, st_gid=300, st_blksize=4096, st_blocks=8, st_size=4096, st_atime=1618920213 /* 2021-04-20T12:03:33.800881867+0000 */, st_atime_nsec=800881867, st_mtime=1618920543 /* 2021-04-20T12:09:03.906225782+0000 */, st_mtime_nsec=906225782, st_ctime=1618920543 /* 2021-04-20T12:09:03.906225782+0000 */, st_ctime_nsec=906225782}) = 0
+698   [00007fb94e3bf923] open("/opt/erlang/bin/erl", O_RDONLY|O_CLOEXEC) = 4
+698   [00007fb94e388b6b] fcntl(4, F_SETFD, FD_CLOEXEC) = 0
+698   [00007fb94e388a87] fcntl(4, F_DUPFD_CLOEXEC, 10) = 10
+698   [00007fb94e388ad4] fcntl(10, F_SETFD, FD_CLOEXEC) = 0
+698   [00007fb94e3bf923] close(4)       = 0
+698   [00007fb94e3bf923] read(10, "#!/bin/sh\n#\n# %CopyrightBegin%\n# \n# Copyright Ericsson AB 1996-2016. All Rights Reserved.\n# \n# Licensed under the Apache"..., 1023) = 856
+698   [00007fb94e3bf923] wait4(-1, 0x7ffe8b3e29fc, WNOHANG, NULL) = -1 ECHILD (No child process)
+698   [00007fb94e3bf923] wait4(-1, 0x7ffe8b3e29fc, WNOHANG, NULL) = -1 ECHILD (No child process)
+698   [00007fb94e3bf923] wait4(-1, 0x7ffe8b3e29fc, WNOHANG, NULL) = -1 ECHILD (No child process)
+698   [00007fb94e3c2a3a] pipe([4, 5])   = 0
+698   [00007fb94e3a956a] fork()         = 699
+698   [00007fb94e3bf923] close(5)       = 0
+699   [00007fb94e3bf923] close(10)      = 0
+698   [00007fb94e3bf923] read(4,  <unfinished ...>
+699   [00007fb94e3bf923] close(4)       = 0
+699   [00007fb94e3c23d4] dup2(5, 1)     = 1
+699   [00007fb94e3bf923] close(5)       = 0
+699   [00007fb94e3c2a3a] pipe([4, 5])   = 0
+699   [00007fb94e3a956a] fork()         = 700
+699   [00007fb94e3bf923] close(5)       = 0
+699   [00007fb94e3b15dd] stat("/usr/local/sbin/sed",  <unfinished ...>
+700   [00007fb94e3bf923] close(4 <unfinished ...>
+699   [00007fb94e3b15dd] <... stat resumed>0x7ffe8b3e26b0) = -1 ENOENT (No such file or directory)
+700   [00007fb94e3bf923] <... close resumed>) = 0
+699   [00007fb94e3b15dd] stat("/usr/local/bin/sed",  <unfinished ...>
+700   [00007fb94e3c23d4] dup2(5, 1 <unfinished ...>
+699   [00007fb94e3b15dd] <... stat resumed>0x7ffe8b3e26b0) = -1 ENOENT (No such file or directory)
+700   [00007fb94e3c23d4] <... dup2 resumed>) = 1
+699   [00007fb94e3b15dd] stat("/usr/sbin/sed",  <unfinished ...>
+700   [00007fb94e3bf923] close(5 <unfinished ...>
+699   [00007fb94e3b15dd] <... stat resumed>0x7ffe8b3e26b0) = -1 ENOENT (No such file or directory)
+700   [00007fb94e3bf923] <... close resumed>) = 0
+699   [00007fb94e3b15dd] stat("/usr/bin/sed",  <unfinished ...>
+700   [00007fb94e3bf923] wait4(-1,  <unfinished ...>
+699   [00007fb94e3b15dd] <... stat resumed>0x7ffe8b3e26b0) = -1 ENOENT (No such file or directory)
+700   [00007fb94e3bf923] <... wait4 resumed>0x7ffe8b3e262c, WNOHANG, NULL) = -1 ECHILD (No child process)
+699   [00007fb94e3b15dd] stat("/sbin/sed",  <unfinished ...>
+700   [00007fb94e3bf923] write(1, "/opt/erlang/bin/erl\n", 20 <unfinished ...>
+699   [00007fb94e3b15dd] <... stat resumed>0x7ffe8b3e26b0) = -1 ENOENT (No such file or directory)
+700   [00007fb94e3bf923] <... write resumed>) = 20
+699   [00007fb94e3b15dd] stat("/bin/sed",  <unfinished ...>
+700   [00007fb94e3886f9] exit_group(0 <unfinished ...>
+699   [00007fb94e3b15dd] <... stat resumed>{st_dev=makedev(0, 0x10c), st_ino=30419837, st_mode=S_IFREG|0755, st_nlink=1, st_uid=0, st_gid=0, st_blksize=4096, st_blocks=1648, st_size=841288, st_atime=1617138378 /* 2021-03-30T21:06:18+0000 */, st_atime_nsec=0, st_mtime=1617138378 /* 2021-03-30T21:06:18+0000 */, st_mtime_nsec=0, st_ctime=1618601998 /* 2021-04-16T19:39:58.702106022+0000 */, st_ctime_nsec=702106022}) = 0
+700   [00007fb94e3886f9] <... exit_group resumed>) = ?
+699   [00007fb94e3a956a] fork( <unfinished ...>
+700   [????????????????] +++ exited with 0 +++
+699   [00007fb94e3a956a] <... fork resumed>) = 701
+699   [00007fb94e3b0a71] --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=700, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---
+699   [00007fb94e3b130d] rt_sigreturn({mask=[]} <unfinished ...>
+701   [00007fb94e3c23d4] dup2(4, 0 <unfinished ...>
+699   [00007fb94e3b0a71] <... rt_sigreturn resumed>) = 0
+701   [00007fb94e3c23d4] <... dup2 resumed>) = 0
+699   [00007fb94e3bf923] close(4 <unfinished ...>
+701   [00007fb94e3bf923] close(4 <unfinished ...>
+699   [00007fb94e3bf923] <... close resumed>) = 0
+701   [00007fb94e3bf923] <... close resumed>) = 0
+699   [00007fb94e3bf923] wait4(-1,  <unfinished ...>
+701   [00007fb94e3a9325] execve("/bin/sed", ["sed", "s/.*\\///"], ["SUDO_GID=1000", "MAIL=/var/mail/root", "USER=root", "HOSTNAME=e350d50f676b", "SHLVL=3", "HOME=/root", "PS1=\\u@\\h:\\w $ ", "SUDO_UID=1000", "LOGNAME=root", "TERM=xterm", "SCONE_HEAP=2G", "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/erlang/bin", "SUDO_COMMAND=/mnt/bpft/bpftrace_static --include /mnt/bpft/missing_types_mig.h union_cleaner_inner_cgroup_profiler.bt -o"..., "SHELL=/bin/ash", "SUDO_USER=builder", "PWD=/home/builder/progs", "SCONE_FORK=1"] <unfinished ...>
+699   [00007fb94e3bf923] <... wait4 resumed>[{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 700
+699   [00007fb94e3bf923] wait4(-1,  <unfinished ...>
+701   [00007f414c367034] <... execve resumed>) = 0
+701   [00007f414c32bf92] set_tid_address(0x7f414c3a5314) = 701
+701   [00007f414c344ca4] mprotect(0x7f414c3a1000, 4096, PROT_READ) = 0
+701   [00007f414c344ca4] mprotect(0x55cb92d92000, 16384, PROT_READ) = 0
+701   [00007f414c366915] getuid()       = 0
+701   [00007f414c355f58] read(0, "/opt/erlang/bin/erl\n", 1024) = 20
+701   [00007f414c355f58] read(0, "", 1024) = 0
+701   [00007f414c356017] writev(1, [{iov_base="erl", iov_len=3}, {iov_base="\n", iov_len=1}], 2) = 4
+698   [00007fb94e3bf923] <... read resumed>"erl\n", 128) = 4
+698   [00007fb94e3bf923] read(4,  <unfinished ...>
+701   [00007f414c32c6f9] exit_group(0)  = ?
+701   [????????????????] +++ exited with 0 +++
+699   [00007fb94e3bf923] <... wait4 resumed>[{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 701
+699   [00007fb94e3bf923] --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=701, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---
+699   [00007fb94e3b130d] rt_sigreturn({mask=[]}) = 701
+699   [00007fb94e3886f9] exit_group(0)  = ?
+698   [00007fb94e3bf923] <... read resumed>"", 128) = 0
+699   [????????????????] +++ exited with 0 +++
+698   [00007fb94e3bf923] --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=699, si_uid=0, si_status=0, si_utime=0, si_stime=0} ---
+698   [00007fb94e3b130d] rt_sigreturn({mask=[]}) = 0
+698   [00007fb94e3bf923] close(4)       = 0
+698   [00007fb94e3bf923] wait4(-1, [{WIFEXITED(s) && WEXITSTATUS(s) == 0}], 0, NULL) = 699
+698   [00007fb94e3bf923] wait4(-1, 0x7ffe8b3e29fc, WNOHANG, NULL) = -1 ECHILD (No child process)
+698   [00007fb94e3bf923] wait4(-1, 0x7ffe8b3e29fc, WNOHANG, NULL) = -1 ECHILD (No child process)
+698   [00007fb94e3bf923] wait4(-1, 0x7ffe8b3e29fc, WNOHANG, NULL) = -1 ECHILD (No child process)
+698   [00007fb94e3bf923] wait4(-1, 0x7ffe8b3e29fc, WNOHANG, NULL) = -1 ECHILD (No child process)
+698   [00007fb94e3bf923] wait4(-1, 0x7ffe8b3e29fc, WNOHANG, NULL) = -1 ECHILD (No child process)
+698   [00007fb94e3bf923] wait4(-1, 0x7ffe8b3e29fc, WNOHANG, NULL) = -1 ECHILD (No child process)
+698   [00007fb94e3a9325] execve("/opt/erlang/lib/erlang/erts-11.1/bin/erlexec", ["/opt/erlang/lib/erlang/erts-11.1/bin/erlexec", "+S", "1:1", "+A", "1", "-noshell", "-s", "helloworld", "start"], ["SUDO_GID=1000", "MAIL=/var/mail/root", "USER=root", "HOSTNAME=e350d50f676b", "SHLVL=3", "HOME=/root", "EMU=beam", "PROGNAME=erl", "PS1=\\u@\\h:\\w $ ", "SUDO_UID=1000", "BINDIR=/opt/erlang/lib/erlang/erts-11.1/bin", "LOGNAME=root", "TERM=xterm", "SCONE_HEAP=2G", "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/erlang/bin", "SUDO_COMMAND=/mnt/bpft/bpftrace_static --include /mnt/bpft/missing_types_mig.h union_cleaner_inner_cgroup_profiler.bt -o"..., "ROOTDIR=/opt/erlang/lib/erlang", "SHELL=/bin/ash", "SUDO_USER=builder", "PWD=/home/builder/progs", "SCONE_FORK=1"]) = 0
+698   [00000000007577f7] uname({sysname="Linux", nodename="e350d50f676b", release="5.4.0-65-generic", version="#73~18.04.1-Ubuntu SMP Tue Jan 19 09:02:24 UTC 2021", machine="x86_64", domainname="(none)"}) = 0
+698   [00000000006d0523] set_tid_address(0x558e62e25c50) = 698
+698   [00000000007209f0] prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+698   [00000000007620ce] access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+698   [00000000006cf65b] openat(AT_FDCWD, "/opt/erlang/lib/erlang/erts-11.1/bin/erlexec", O_RDONLY) = 4
+698   [000000000071ff35] stat("/opt/erlang/lib/erlang/erts-11.1/bin/erlexec", {st_dev=makedev(0, 0x10c), st_ino=4207182, st_mode=S_IFREG|0755, st_nlink=1, st_uid=0, st_gid=0, st_blksize=4096, st_blocks=392, st_size=198736, st_atime=1618913066 /* 2021-04-20T10:04:26+0000 */, st_atime_nsec=0, st_mtime=1618913066 /* 2021-04-20T10:04:26+0000 */, st_mtime_nsec=0, st_ctime=1618913072 /* 2021-04-20T10:04:32.556912608+0000 */, st_ctime_nsec=556912608}) = 0
+698   [00000000006cf481] close(4)       = 0
+698   [000000000071ffc7] access("/opt/scone/scone.conf", R_OK) = -1 ENOENT (No such file or directory)
+698   [000000000071ffc7] access("/etc/sgx-musl.conf", R_OK) = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/etc/sgx-musl.conf", O_RDONLY) = 4
+698   [00000000006cf3ae] read(4, "Q 4\ne -1 0 0\ns -1 0 0\ns -1 0 0\ne -1 1 0\ns -1 1 0\ns -1 1 0\ne -1 2 0\ns -1 2 0\ns -1 2 0\ne -1 3 0\ns -1 3 0\ns -1 3 0\n", 4096) = 112
+698   [00000000006cf3ae] read(4, "", 4096) = 0
+698   [00000000006cf4f7] close(4)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/opt/erlang/lib/erlang/erts-11.1/bin/erlexec", O_RDONLY) = 4
+698   [00000000006cf3ae] read(4, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0O.\0\0\0\0\0\0@\0\0\0\0\0\0\0\320\375\2\0\0\0\0\0\0\0\0\0@\08\0\10\0@\0*\0)\0\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0\300\1\0\0\0\0\0\0\300\1\0\0\0\0\0\0\10\0\0\0\0\0\0\0"..., 198736) = 198736
+698   [00000000006cf481] close(4)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/etc/os-release", O_RDONLY) = 4
+698   [00000000006cf3ae] read(4, "NAME=\"Alpine Linux\"\nID=alpine\nVERSION_ID=3.12.7\nPRETTY_NAME=\"Alpine Linux v3.12\"\nHOME_URL=\"https://alpinelinux.org/\"\nBUG"..., 4096) = 164
+698   [00000000006cf4f7] close(4)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/dev/isgx", O_RDWR) = 4
+698   [00000000006cf481] close(4)       = 0
+698   [000000000071ffc7] access("/dev/sgx/enclave", W_OK) = -1 ENOENT (No such file or directory)
+698   [000000000071ffc7] access("/dev/sgx", W_OK) = -1 ENOENT (No such file or directory)
+698   [000000000071ffc7] access("/dev/isgx", W_OK) = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/dev/sgx/enclave", O_RDWR) = -1 ENOENT (No such file or directory)
+698   [00000000006cf65b] openat(AT_FDCWD, "/dev/sgx", O_RDWR) = -1 ENOENT (No such file or directory)
+698   [00000000006cf65b] openat(AT_FDCWD, "/dev/isgx", O_RDWR) = 4
+698   [000000000071ffc7] access("/dev/sgx/enclave", W_OK) = -1 ENOENT (No such file or directory)
+698   [000000000071ffc7] access("/dev/sgx", W_OK) = -1 ENOENT (No such file or directory)
+698   [000000000071ffc7] access("/dev/isgx", W_OK) = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/opt/scone/lib/libc.scone-x86_64.so.1", O_RDONLY) = 5
+698   [00000000006cf481] close(5)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/opt/scone/lib/libc.scone-x86_64.so.1", O_RDONLY) = 5
+698   [00000000006cf481] close(5)       = 0
+698   [0000000000721719] getrandom("\x61\x44\xc6\x68\xb2\x29\x0b\x93\x5d\xe4\xdb\xe7\x71\x55\x84\x2b", 16, GRND_NONBLOCK) = 16
+698   [00000000006cf65b] openat(AT_FDCWD, "/opt/scone/lib/sgx_white_list_cert.bin", O_RDONLY) = -1 ENOENT (No such file or directory)
+698   [00000000006cf65b] openat(AT_FDCWD, "/dev/isgx", O_RDWR) = 5
+698   [00000000006cf481] close(5)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/proc/698/mem", O_RDWR) = 5
+698   [00000000006cf527] lseek(5, 70875992072, SEEK_SET) = 70875992072
+698   [00000000006cf2e1] write(5, "\1", 1) = 1
+698   [00000000006cf481] close(5)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/proc/698/mem", O_RDWR) = 5
+698   [00000000006cf527] lseek(5, 70876078088, SEEK_SET) = 70876078088
+698   [00000000006cf2e1] write(5, "\1", 1) = 1
+698   [00000000006cf481] close(5)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/proc/698/mem", O_RDWR) = 5
+698   [00000000006cf527] lseek(5, 70876164104, SEEK_SET) = 70876164104
+698   [00000000006cf2e1] write(5, "\1", 1) = 1
+698   [00000000006cf481] close(5)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/proc/698/mem", O_RDWR) = 5
+698   [00000000006cf527] lseek(5, 70876250120, SEEK_SET) = 70876250120
+698   [00000000006cf2e1] write(5, "\1", 1) = 1
+698   [00000000006cf481] close(5)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/proc/698/mem", O_RDWR) = 5
+698   [00000000006cf527] lseek(5, 70876336136, SEEK_SET) = 70876336136
+698   [00000000006cf2e1] write(5, "\1", 1) = 1
+698   [00000000006cf481] close(5)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/proc/698/mem", O_RDWR) = 5
+698   [00000000006cf527] lseek(5, 70876422152, SEEK_SET) = 70876422152
+698   [00000000006cf2e1] write(5, "\1", 1) = 1
+698   [00000000006cf481] close(5)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/proc/698/mem", O_RDWR) = 5
+698   [00000000006cf527] lseek(5, 70876508168, SEEK_SET) = 70876508168
+698   [00000000006cf2e1] write(5, "\1", 1) = 1
+698   [00000000006cf481] close(5)       = 0
+698   [00000000006cf65b] openat(AT_FDCWD, "/proc/698/mem", O_RDWR) = 5
+698   [00000000006cf527] lseek(5, 70876594184, SEEK_SET) = 70876594184
+698   [00000000006cf2e1] write(5, "\1", 1) = 1
+698   [00000000006cf481] close(5)       = 0
+698   [0000000000721857] mprotect(0x7fe91c6e0000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe91ceded78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[702], tls=0x7fe91cedf700, child_tidptr=0x7fe91cedf9d0) = 702
+698   [00000000006cf6de] openat(AT_FDCWD, "/etc/sgx-musl.conf", O_RDONLY) = 5
+698   [00000000006cf3e4] read(5, "Q 4\ne -1 0 0\ns -1 0 0\ns -1 0 0\ne -1 1 0\ns -1 1 0\ns -1 1 0\ne -1 2 0\ns -1 2 0\ns -1 2 0\ne -1 3 0\ns -1 3 0\ns -1 3 0\n", 4096) = 112
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe91bedf000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe91c6ddd78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[703], tls=0x7fe91c6de700, child_tidptr=0x7fe91c6de9d0) = 703
+698   [00000000006cacf3] sched_setscheduler(703, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe91b6de000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe91bedcd78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[704], tls=0x7fe91bedd700, child_tidptr=0x7fe91bedd9d0) = 704
+698   [00000000006cacf3] sched_setscheduler(704, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe91aedd000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe91b6dbd78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[705], tls=0x7fe91b6dc700, child_tidptr=0x7fe91b6dc9d0) = 705
+698   [00000000006cacf3] sched_setscheduler(705, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe91a6dc000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe91aedad78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[706], tls=0x7fe91aedb700, child_tidptr=0x7fe91aedb9d0) = 706
+698   [00000000006cacf3] sched_setscheduler(706, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe919edb000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe91a6d9d78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[707], tls=0x7fe91a6da700, child_tidptr=0x7fe91a6da9d0) = 707
+698   [00000000006cacf3] sched_setscheduler(707, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe9196da000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe919ed8d78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[708], tls=0x7fe919ed9700, child_tidptr=0x7fe919ed99d0) = 708
+698   [00000000006cacf3] sched_setscheduler(708, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe918ed9000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe9196d7d78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[709], tls=0x7fe9196d8700, child_tidptr=0x7fe9196d89d0) = 709
+698   [00000000006cacf3] sched_setscheduler(709, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe9186d8000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe918ed6d78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[710], tls=0x7fe918ed7700, child_tidptr=0x7fe918ed79d0) = 710
+698   [00000000006cacf3] sched_setscheduler(710, SCHED_OTHER, [0]) = 0
+698   [00000000006cf3e4] read(5, "", 4096) = 0
+698   [00000000006cf4f7] close(5)       = 0
+698   [00000000006cf6de] openat(AT_FDCWD, "/etc/sgx-musl.conf", O_RDONLY) = 5
+698   [00000000006cf3e4] read(5, "Q 4\ne -1 0 0\ns -1 0 0\ns -1 0 0\ne -1 1 0\ns -1 1 0\ns -1 1 0\ne -1 2 0\ns -1 2 0\ns -1 2 0\ne -1 3 0\ns -1 3 0\ns -1 3 0\n", 4096) = 112
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe9182d7000, 4194304, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe9186d5d78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[711], tls=0x7fe9186d6700, child_tidptr=0x7fe9186d69d0) = 711
+698   [00000000006cacf3] sched_setscheduler(711, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe917ed6000, 4194304, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe9182d4d78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[712], tls=0x7fe9182d5700, child_tidptr=0x7fe9182d59d0) = 712
+698   [00000000006cacf3] sched_setscheduler(712, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe917ad5000, 4194304, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe917ed3d78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[713], tls=0x7fe917ed4700, child_tidptr=0x7fe917ed49d0) = 713
+698   [00000000006cacf3] sched_setscheduler(713, SCHED_OTHER, [0]) = 0
+698   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+698   [0000000000721857] mprotect(0x7fe9176d4000, 4194304, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+698   [0000000000408565] clone(child_stack=0x7fe917ad2d78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[714], tls=0x7fe917ad3700, child_tidptr=0x7fe917ad39d0) = 714
+698   [00000000006cacf3] sched_setscheduler(714, SCHED_OTHER, [0]) = 0
+698   [00000000006cf3e4] read(5, "", 4096) = 0
+698   [00000000006cf4f7] close(5)       = 0
+707   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+707   [0000000000721857] mprotect(0x7fe916ed3000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+707   [0000000000721857] mprotect(0x7fe910000000, 135168, PROT_READ|PROT_WRITE) = 0
+707   [0000000000408565] clone(child_stack=0x7fe9176d1d78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[715], tls=0x7fe9176d2700, child_tidptr=0x7fe9176d29d0) = 715
+707   [00000000006cacf3] sched_setscheduler(715, SCHED_OTHER, [0]) = 0
+711   [00000000006de607] sigaltstack({ss_sp=0x7fe916ece000, ss_flags=0, ss_size=16384}, NULL) = 0
+709   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+709   [0000000000721857] mprotect(0x7fe9166ce000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+709   [0000000000721857] mprotect(0x7fe908000000, 135168, PROT_READ|PROT_WRITE) = 0
+709   [0000000000408565] clone(child_stack=0x7fe916eccd78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[716], tls=0x7fe916ecd700, child_tidptr=0x7fe916ecd9d0) = 716
+709   [00000000006cacf3] sched_setscheduler(716, SCHED_OTHER, [0]) = 0
+713   [00000000006de607] sigaltstack({ss_sp=0x7fe9166c9000, ss_flags=0, ss_size=16384},  <unfinished ...>
+703   [000000000071fd27] sched_get_priority_max(SCHED_OTHER <unfinished ...>
+713   [00000000006de607] <... sigaltstack resumed>NULL) = 0
+703   [000000000071fd27] <... sched_get_priority_max resumed>) = 0
+714   [00000000006de607] sigaltstack({ss_sp=0x7fe9166c4000, ss_flags=0, ss_size=16384}, NULL) = 0
+712   [00000000006de607] sigaltstack({ss_sp=0x7fe9166c0000, ss_flags=0, ss_size=16384}, NULL) = 0
+703   [0000000000721857] mprotect(0x7fe915ec0000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+703   [0000000000721857] mprotect(0x7fe90c000000, 135168, PROT_READ|PROT_WRITE) = 0
+703   [0000000000408565] clone(child_stack=0x7fe9166bed78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[717], tls=0x7fe9166bf700, child_tidptr=0x7fe9166bf9d0) = 717
+703   [00000000006cacf3] sched_setscheduler(717, SCHED_OTHER, [0]) = 0
+704   [000000000071fd27] sched_get_priority_max(SCHED_OTHER) = 0
+704   [0000000000721857] mprotect(0x7fe9156be000, 8388608, PROT_READ|PROT_WRITE|PROT_EXEC) = 0
+704   [0000000000721857] mprotect(0x7fe900000000, 135168, PROT_READ|PROT_WRITE) = 0
+704   [0000000000408565] clone(child_stack=0x7fe915ebcd78, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=[718], tls=0x7fe915ebd700, child_tidptr=0x7fe915ebd9d0) = 718
+704   [00000000006cacf3] sched_setscheduler(718, SCHED_OTHER, [0]) = 0
+711   [000000000040f392] --- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=NULL} ---
+711   [00000000006cf317] write(2, "[SCONE|ERROR] tools/starter/signal.c:222:ethread_signal_handler(): Enclave returned error: Unexpected call id\n", 110) = 110
+711   [000000000071f736] exit_group(1)  = ?
+718   [????????????????] +++ exited with 1 +++
+713   [????????????????] +++ exited with 1 +++
+712   [????????????????] +++ exited with 1 +++
+711   [????????????????] +++ exited with 1 +++
+710   [????????????????] +++ exited with 1 +++
+709   [????????????????] +++ exited with 1 +++
+708   [????????????????] +++ exited with 1 +++
+717   [????????????????] +++ exited with 1 +++
+716   [????????????????] +++ exited with 1 +++
+714   [????????????????] +++ exited with 1 +++
+704   [????????????????] +++ exited with 1 +++
+703   [????????????????] +++ exited with 1 +++
+702   [????????????????] +++ exited with 1 +++
+715   [????????????????] +++ exited with 1 +++
+707   [????????????????] +++ exited with 1 +++
+705   [????????????????] +++ exited with 1 +++
+706   [????????????????] +++ exited with 1 +++
+698   [????????????????] +++ exited with 1 +++
