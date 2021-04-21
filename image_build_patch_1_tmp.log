@@ -1,13 +1,13 @@
 amiguel@sgx5:~/scone-erlang$ docker image build --rm --no-cache -t amiguel:cross_compiler_mapper_sync_fork_heap_erlang_patch1_tmp .
-Sending build context to Docker daemon  558.9MB
+Sending build context to Docker daemon  561.4MB
 Step 1/22 : FROM pamenas/perf:cross_compiler_mapper_sync_fork_heap
  ---> a180d0e160e0
 Step 2/22 : USER root
- ---> Running in 7ff69b3eaea7
-Removing intermediate container 7ff69b3eaea7
- ---> aeaac8c2f174
+ ---> Running in 51dbf617d461
+Removing intermediate container 51dbf617d461
+ ---> c09a3d8a3ad3
 Step 3/22 : RUN apk add sudo 	autoconf 	ncurses-dev 	linux-headers 	shadow 	strace
- ---> Running in 74812517ca76
+ ---> Running in cfc538c28b49
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/community/x86_64/APKINDEX.tar.gz
 (1/10) Installing m4 (1.4.18-r1)
@@ -22,59 +22,59 @@ fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/community/x86_64/APKINDEX.tar.g
 (10/10) Installing sudo (1.9.5p2-r0)
 Executing busybox-1.31.1-r20.trigger
 OK: 333 MiB in 79 packages
-Removing intermediate container 74812517ca76
- ---> 8867f89499bc
+Removing intermediate container cfc538c28b49
+ ---> ac948a11c724
 Step 4/22 : RUN echo "root       ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
- ---> Running in 872047a6f456
-Removing intermediate container 872047a6f456
- ---> 30d90ac129bb
+ ---> Running in 6eb1a8782d65
+Removing intermediate container 6eb1a8782d65
+ ---> 6922143d17f5
 Step 5/22 : RUN sudo useradd -ms /bin/bash erlanger; 	sudo passwd -d erlanger; 	echo "export PATH=\"\$PATH:/opt/erlang/bin\"" >>~builder/.bashrc; 	echo "export PS1='\u@\h:\w $ '" >>~builder/.bashrc; 	sudo cp ~builder/.bashrc ~erlanger/.bashrc; 	sudo chown erlanger:erlanger ~erlanger/.bashrc
- ---> Running in 3d3a9af3a9eb
+ ---> Running in 18f327945c1f
 passwd: password expiry information changed.
-Removing intermediate container 3d3a9af3a9eb
- ---> 255ae47e21d1
+Removing intermediate container 18f327945c1f
+ ---> 3f40d5974fe5
 Step 6/22 : COPY ./erlanger.sudoer /etc/sudoers.d/
- ---> 4830a22b4317
+ ---> d6814692a88c
 Step 7/22 : RUN sudo chmod 440 /etc/sudoers.d/erlanger.sudoer
- ---> Running in cbb45385f51f
-Removing intermediate container cbb45385f51f
- ---> 2fb0c25fe1d8
+ ---> Running in 0e98e728c80b
+Removing intermediate container 0e98e728c80b
+ ---> 4b47204aef7c
 Step 8/22 : WORKDIR /tmp
- ---> Running in 73435b76290b
-Removing intermediate container 73435b76290b
- ---> a22bdd54fb52
+ ---> Running in 5a492b3e4435
+Removing intermediate container 5a492b3e4435
+ ---> adb44304f122
 Step 9/22 : RUN sudo mkdir building; 	sudo chown erlanger building
- ---> Running in ff0c49c01590
-Removing intermediate container ff0c49c01590
- ---> 6f7976b8a79d
+ ---> Running in ad83ed836bb6
+Removing intermediate container ad83ed836bb6
+ ---> b120629879d8
 Step 10/22 : RUN echo "|--> Setting up BPFTRACE STATIC";
- ---> Running in 349ff0564dbb
+ ---> Running in 2d09af92828f
 |--> Setting up BPFTRACE STATIC
-Removing intermediate container 349ff0564dbb
- ---> 0109f1b35ed3
+Removing intermediate container 2d09af92828f
+ ---> 368cda44aa97
 Step 11/22 : ADD ./bpftrace_static_setup.tar.gz /tmp/building/
- ---> c72b9bf6f44b
+ ---> 4f9c2081dbb3
 Step 12/22 : WORKDIR /tmp/building/bpftrace_static_setup
- ---> Running in f668e089a72f
-Removing intermediate container f668e089a72f
- ---> 9c5be77f4630
+ ---> Running in 2a36c0c3ca38
+Removing intermediate container 2a36c0c3ca38
+ ---> f439958106f6
 Step 13/22 : RUN sudo mkdir -p /mnt/bpft /opt/bpftrace/bin; 	sudo cp file_block.ext3 /opt/bpftrace; 	sudo cp missing_types_mig.h /opt/bpftrace/bin; 	sudo cp bpftrace_static /opt/bpftrace/bin; 	sudo cp mount_bpft.sh /opt/bpftrace/bin;
- ---> Running in 89e37d00a28e
-Removing intermediate container 89e37d00a28e
- ---> 98478520d4b2
+ ---> Running in cc78fdf4f72d
+Removing intermediate container cc78fdf4f72d
+ ---> 5495e30511b8
 Step 14/22 : RUN echo "|--> Setting up ERLANG PATCHED FOR SCONE";
- ---> Running in 74430cb77db5
+ ---> Running in 4991116c1220
 |--> Setting up ERLANG PATCHED FOR SCONE
-Removing intermediate container 74430cb77db5
- ---> e58c7c70ede3
+Removing intermediate container 4991116c1220
+ ---> 5c8dbb22e74a
 Step 15/22 : WORKDIR /tmp/building/
- ---> Running in 503f5a4862db
-Removing intermediate container 503f5a4862db
- ---> dc480543c89c
+ ---> Running in 67e460903d5a
+Removing intermediate container 67e460903d5a
+ ---> c4b39acea873
 Step 16/22 : COPY ./otp_erlang_23.1_scone_setup.tar.gz /tmp/building/
- ---> e408cb25cd2a
+ ---> e74bcb5e7d77
 Step 17/22 : RUN sudo -u erlanger tar xzf ./otp_erlang_23.1_scone_setup.tar.gz; 	cd otp_erlang_23.1_scone_setup/; 	sudo -u erlanger tar xzf otp_src_23.1.tar.gz; 	sudo -u erlanger cp build.cross.sh ./otp_src_23.1/; 	cd otp_src_23.1/; 	sudo -u erlanger ./build.cross.sh 	|| echo; 	sudo make install
- ---> Running in 645d05755a83
+ ---> Running in d9f59b9f449a
 ..:INF:Executing otp_build autoconf
 
 === cleaning lib/common_test/configure
@@ -1843,8 +1843,8 @@ checking for clock_get_attributes... no
 checking for gethrtime... no
 checking for mach clock_get_time() with monotonic clock type... no
 checking if SIGUSR1 and SIGUSR2 can be used... cross
-checking if sigaltstack can be used... configure: WARNING: result yes guessed because of cross compilation
-cross
+configure: WARNING: result yes guessed because of cross compilation
+checking if sigaltstack can be used... cross
 configure: WARNING: result yes guessed because of cross compilation
 checking for pthread.h... (cached) yes
 checking for pthread/mit/pthread.h... (cached) no
@@ -2213,8 +2213,8 @@ checking for clock_get_attributes... (cached) no
 checking for gethrtime... (cached) no
 checking for mach clock_get_time() with monotonic clock type... (cached) no
 checking if gethrvtime works and how to use it... cross
-configure: WARNING: result 'not working' guessed because of cross compilation
-checking if clock_gettime can be used to get thread CPU time... cross
+checking if clock_gettime can be used to get thread CPU time... configure: WARNING: result 'not working' guessed because of cross compilation
+cross
 configure: WARNING: result no guessed because of cross compilation
 checking for m4... m4
 checking for safe signal delivery... no, musl probably used. Need glibc to work properly
@@ -5913,21 +5913,21 @@ ln -s ../lib/erlang/bin/dialyzer dialyzer
 ln -s ../lib/erlang/bin/typer typer
 ln -s ../lib/erlang/bin/escript escript
 ln -s ../lib/erlang/bin/ct_run ct_run
-Removing intermediate container 645d05755a83
- ---> 1dd5dea53f62
+Removing intermediate container d9f59b9f449a
+ ---> a4a3ce8b017e
 Step 18/22 : RUN echo "|--> Preparing for test ERLANG HELLO WORLD"
- ---> Running in 2f513c0c6604
+ ---> Running in 0fa2af7eb2e4
 |--> Preparing for test ERLANG HELLO WORLD
-Removing intermediate container 2f513c0c6604
- ---> e2f795a6fc2d
+Removing intermediate container 0fa2af7eb2e4
+ ---> f7e34d5d41f2
 Step 19/22 : WORKDIR /home/builder
- ---> Running in 67f4ac2d6ef2
-Removing intermediate container 67f4ac2d6ef2
- ---> af2e3c7314b6
+ ---> Running in c87c0963985e
+Removing intermediate container c87c0963985e
+ ---> f1e983e5f350
 Step 20/22 : ADD ./progs ./progs
- ---> 081312f11019
+ ---> 4eaf38393bd9
 Step 21/22 : RUN sudo chown -Rf builder:abuild progs; 	sudo chmod go+w progs; 	cd progs; 	SCONE_HEAP=2G SCONE_FORK=1 /opt/erlang/bin/erlc helloworld.erl 	|| echo;
- ---> Running in 69152bbdf26b
+ ---> Running in fa2466c64121
 [SCONE|WARN] src/enclave/dispatch.c:185:print_version(): Application runs in SGX simulation mode. Its memory can be read by the untrusted system! This is not secure!
  invalid file: not an x86_64  shared object or executable
 [SCONE|WARN] src/enclave/dispatch.c:185:print_version(): Application runs in SGX simulation mode. Its memory can be read by the untrusted system! This is not secure!
@@ -5936,11 +5936,11 @@ Step 21/22 : RUN sudo chown -Rf builder:abuild progs; 	sudo chmod go+w progs; 	c
 [SCONE|WARN] src/shielding/proc_fs.c:384:_proc_fs_open(): open: /proc/self/mountinfo is not supported
 [SCONE|WARN] src/syscall/syscall.c:34:__scone_ni_syscall(): system call: membarrier, number 324 is not implemented.
 [SCONE|WARN] src/enclave/dispatch.c:185:print_version(): Application runs in SGX simulation mode. Its memory can be read by the untrusted system! This is not secure!
-Removing intermediate container 69152bbdf26b
- ---> bdb37be897c5
+Removing intermediate container fa2466c64121
+ ---> 32f33cbf205e
 Step 22/22 : USER builder
- ---> Running in 26456c239e06
-Removing intermediate container 26456c239e06
- ---> 56bb3d66235d
-Successfully built 56bb3d66235d
+ ---> Running in 0b56b78047bf
+Removing intermediate container 0b56b78047bf
+ ---> b39de55e7dc8
+Successfully built b39de55e7dc8
 Successfully tagged amiguel:cross_compiler_mapper_sync_fork_heap_erlang_patch1_tmp
