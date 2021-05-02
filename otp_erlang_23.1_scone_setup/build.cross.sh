@@ -18,7 +18,7 @@ echo "..:INF:Executing configure --disable-dirty-schedulers --disable-plain-emul
 && \
 cd .. \
 && \
-patch -p0 < otp_23.1_scone.patch.p1 \
+echo "DO NOT apply this: patch -p0 < otp_23.1_scone.patch.p1" \
 && \
 cd - \
 && \

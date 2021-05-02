@@ -1,0 +1,302 @@
+#!/usr/bin/bpftrace
+struct syscall_t {
+	unsigned long a1;
+	unsigned long a2;
+	unsigned long a3;
+	unsigned long a4;
+	unsigned long a5;
+	unsigned long a6;
+	unsigned long syscallno;
+};
+struct iovec {
+      char *iov_base;    
+      unsigned long iov_len;    
+};
+struct uds_pipe {
+	int a0;
+	int a1;
+	int a2;
+};
+struct pipe_arg {
+	int a0;
+	int a1;
+};
+struct sc {
+	unsigned long a0;
+	struct pipe_arg *a1;
+}
+struct sclong {
+	struct pipe_arg *a1;
+	struct pipe_arg *a2;
+	struct pipe_arg *a3;
+	struct pipe_arg *a4;
+	struct pipe_arg *a5;
+	struct pipe_arg *a6;
+	unsigned long    syscallno;
+};
+
+struct fd_priv {
+	int fd;
+	int flags;
+};
+
+struct fd_struct {
+    int lock;
+    void *data;
+    struct fd_priv *info;
+};  
+    
+  
+tracepoint:syscalls:sys_exit_fork /comm=="erl_child_setup" || comm=="erlexec" || comm=="erl" || comm=="beam.smp"/{
+	if( args->ret != 0 ) {
+		printf("%ld %s fork parent %d child %d\n",nsecs,comm,pid,args->ret);
+	}
+}
+
+//uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:__scone_syscall_shielded / comm=="erl_child_setup"  / {
+//
+//	if( (arg0==0)){
+//		printf("%ld pid %d read fd %d\n", nsecs, pid,arg1);
+//		return;
+//	}
+//	if( (arg0==1)){
+//		printf("%ld pid %d write fd %d\n", nsecs, pid,arg1);
+//		return;
+//	}
+//	if( (arg0==3)){
+//		printf("%ld pid %d close fd %d\n", nsecs, pid,arg1);
+//		return;
+//	}
+//}
+uprobe:/opt/erlang/lib/erlang/erts-11.1/bin/erl_child_setup:sys_uds_write{
+	$a = (struct uds_pipe*)arg3;
+	printf("%s pid %d sys_uds_writev fd={%d,%d,%d} fdcounts %d\n",comm, pid, $a->a0, $a->a1, $a->a2, arg4);
+}
+uretprobe:/opt/erlang/lib/erlang/erts-11.1/bin/erl_child_setup:sys_uds_write{
+	printf("%s pid %d sys_uds_write return %d\n",comm,pid,retval);
+}
+uretprobe:/opt/erlang/lib/erlang/erts-11.1/bin/beam.smp:sys_uds_write{
+	printf("%s pid %d sys_uds_write return %d\n",comm,pid,retval);
+}
+
+uprobe:/opt/erlang/lib/erlang/erts-11.1/bin/beam.smp:sys_uds_write{
+	$a = (struct uds_pipe*)arg3;
+	printf("%s pid %d sys_uds_write fd={%d,%d,%d} fdcounts %d\n",comm, pid, $a->a0, $a->a1, $a->a2, arg4);
+}
+uprobe:/opt/erlang/lib/erlang/erts-11.1/bin/erl_child_setup:sys_uds_read {
+	printf("pid: uprobe uds read===================================fd %d\n",pid);
+	@sys_uds_read0[reg("sp")+8] = arg0;
+	@sys_uds_read3[reg("sp")+8] = arg3;
+	printf("uprbe uds read end =================================== %d\n",pid);
+}
+uretprobe:/opt/erlang/lib/erlang/erts-11.1/bin/erl_child_setup:sys_uds_read {
+	$a0 = @sys_uds_read0[reg("sp")];
+	$a2 = (struct uds_pipe*)@sys_uds_read3[reg("sp")];
+	printf("%s pid %d sys_uds_read read_fd %d fss:{%d,%d} retval %d\n",comm, pid, $a0, $a2->a0, $a2->a1, retval);
+	delete(@sys_uds_read0[reg("sp")]);
+	delete(@sys_uds_read3[reg("sp")]);
+}
+//uprobe:/opt/scone/lib/ld-scone-x86_64.so.1:scall / comm=="erl_child_setup" || comm=="beam.smp" / {
+//	$sc = (struct sclong*) arg0;
+//	if( ($sc->syscallno ==22)){
+//		@pipe_st[reg("sp") + 8 ] = $sc->a1;
+//		@pipe_cmd[reg("sp") + 8] = 22;
+//		return;
+//	}
+//	if( ($sc->syscallno ==293)){
+//		@pipe_st[reg("sp") + 8 ] = $sc->a1;
+//		@pipe_cmd[reg("sp") + 8] = 293;
+//		return;
+//	}
+//	if( ($sc->syscallno == 3)){
+//		printf("%ld %s pid %d system close fd %d\n", nsecs,comm,pid, $sc->a1);
+//		return;
+//	}
+//	if( ($sc->syscallno ==32 )){
+//		@dup[reg("sp") + 8 ] = $sc->a1;
+//		return;
+//	}
+//	if( ($sc->syscallno ==32 )){
+//		@dup_cmd[reg("sp") + 8 ] = 32;
+//		@dup_arg0[reg("sp") + 8 ] = $sc->a1;
+//		return;
+//	}
+//	if( ($sc->syscallno ==33 )){
+//		@dup_cmd[reg("sp") + 8 ] = 33;
+//		@dup_arg0[reg("sp") + 8 ] = $sc->a1;
+//		@dup_arg1[reg("sp") + 8 ] = $sc->a2;
+//		return;
+//	}
+//
+//
+//}
+//
+//uretprobe:/opt/scone/lib/ld-scone-x86_64.so.1:scall / comm=="erl_child_setup"|| comm=="beam.smp"  / {
+//	$dat = (struct pipe_arg*) @pipe_st[reg("sp")];
+//	if( $dat != 0 ) {
+//		$cmd = @pipe_cmd[reg("sp")];
+//		if( $cmd == 22 ) {
+//			printf("%d %s pid %d system pipe  fd {%d,%d}\n",nsecs,comm,pid,$dat->a0, $dat->a1);
+//		} else {
+//			printf("%d %s pid %d system pipe2 fd {%d,%d}\n",nsecs,comm,pid,$dat->a0, $dat->a1);
+//		}
+//		delete(@pipe_st[reg("sp")]);
+//		delete(@pipe_cmd[reg("sp")]);
+//		return;
+//	}
+//	$cmd = @dup_cmd[reg("sp")];
+//	if( $cmd == 32 ) {
+//		$old_pid = @dup_arg0[reg("sp") ] ;
+//		printf("%d %s pid %d system dup old fd :%d new fd:%d\n",nsecs,comm,pid,$old_pid,retval);
+//		delete(@dup_arg0[ reg("sp") ]);
+//		delete(@dup_cmd[reg("sp")]) ;
+//		return;
+//	}
+//	if( $cmd == 293 ) {
+//		$old_pid = @dup_arg0[reg("sp") ] ;
+//		$new_pid = @dup_arg1[reg("sp") ] ;
+//		printf("%d %s pid %d system dup old fd :%d new fd:%d\n",nsecs,comm,pid,$old_pid,$new_pid);
+//		delete(@dup_arg0[ reg("sp") ]);
+//		delete(@dup_arg1[ reg("sp") ]);
+//		delete(@dup_cmd[reg("sp")]) ;
+//		return;
+//	}
+//
+//
+//}
+//uprobe:/opt/scone/lib/ld-scone-x86_64.so.1:scall /comm=="erl_child_setup" || comm=="erlexec" || comm=="erl" || comm=="beam.smp"/ {
+//	$sc = (struct syscall_t*) arg0;
+//	if( ($sc->syscallno ==72)){
+//		@fcntl_ptr[reg("sp") + 8] = $sc;
+//		@fcntl_fd[reg("sp") + 8] = $sc->a1;
+//		printf("%lx %s pid %d system fnctl fd:%d cmd %lx flags %lx\n",nsecs, comm, pid, $sc->a1,$sc->a2,$sc->a2);	
+//	} 
+//}
+//uretprobe:/opt/scone/lib/ld-scone-x86_64.so.1:scall /comm=="erl_child_setup" || comm=="erlexec" || comm=="erl" || comm=="beam.smp"/ {
+//	$sc = @fcntl_ptr[reg("sp")];
+//	$fd = @fcntl_fd[reg("sp")];
+//	if( $sc != 0 ) {
+//		printf("%lx %s pid %d system fnctl fd:%d return value %lx\n",nsecs, comm, pid, $fd, retval);	
+//		delete(@fcntl_ptr[reg("sp")]);
+//		delete(@fcntl_fd[reg("sp")]);
+//	}
+//}
+
+uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:socketpair/ comm=="erl_child_setup" || comm=="beam.smp" / {
+	printf("   ");
+	@socket_pair[reg("sp")+8] = arg3;
+	printf("\n");
+}
+
+uretprobe:/opt/scone/lib/libc.scone-x86_64.so.1:socketpair/ comm=="erl_child_setup" || comm=="beam.smp" / {
+	$arg_addr = (struct pipe_arg*) @socket_pair[reg("sp")];
+	printf("%ld %s pid %d socketpair fd:{%d,%d}\n",nsecs,comm,pid, $arg_addr->a0, $arg_addr->a1);
+	printf("=========================\n");
+	delete(@socket_pair[reg("sp")]);
+}
+  
+uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:_fd_table_set_unused_fd  {
+    printf("\n");
+    @table_entry[reg("sp") + 8] = arg1;
+
+}
+uretprobe:/opt/scone/lib/libc.scone-x86_64.so.1:_fd_table_set_unused_fd  {
+    $info = (struct fd_priv*) @table_entry[reg("sp")];
+    printf("%lx pid:%d %s scone fd: %d kernel fd %d\n",nsecs,pid, comm, retval, $info->fd);
+    delete(@table_entry[reg("sp")]);
+}   
+    
+uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:_fd_table_set_fd_entry_generic {
+    $old = (struct fd_struct*)arg1;
+    printf("%lx pid: %d %s scone fd: %d kernel fd %d\n",nsecs,pid, comm, arg0, $old->info->fd);
+    
+}   
+
+//uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:fcntl /comm=="erl_child_setup" || comm=="erlexec" || comm=="erl" || comm=="beam.smp"/{
+//	printf("___________________________________\n");
+//	@fcntl_scone_a0[reg("sp") + 8] = arg0;
+//	@fcntl_scone_a1[reg("sp") + 8] = arg1;
+//	@fcntl_scone_a2[reg("sp") + 8] = arg2;
+//	printf("%lx %s  pid %d scone fcntl from fd %d action %d flags %lx\n",nsecs,comm,pid,arg0,arg1,arg2);
+//}
+//uretprobe:/opt/scone/lib/libc.scone-x86_64.so.1:fcntl /comm=="erl_child_setup" || comm=="erlexec" || comm=="erl" || comm=="beam.smp"/{
+//	printf("___________________________________\n");
+//	$arg0 =  @fcntl_scone_a0[reg("sp") ]; 
+//	$arg1 =  @fcntl_scone_a1[reg("sp") ]; 
+//	$arg2 =  @fcntl_scone_a2[reg("sp") ]; 
+//	printf("%lx %s  pid %d scone fcntl fd %d cmd %d ret %d\n",nsecs,comm,pid,$arg0,$arg1,retval);
+//	delete(@fcntl_scone_a0[reg("sp") ]); 
+//	delete(@fcntl_scone_a1[reg("sp") ]); 
+//	delete(@fcntl_scone_a2[reg("sp") ]); 
+//
+//}
+//
+
+//uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:pipe /* comm=="erl_child_setup" || comm=="beam.smp" */ {
+//	printf("-------------------------\n");
+//	@tmp_rsp[reg("sp")+8] = arg0;
+//	printf("\n\n");
+//}
+//
+//
+//
+//uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:pipe /* comm=="erl_child_setup" || comm=="beam.smp" */ {
+//	printf("-------------------------\n");
+//	@tmp_rsp[reg("sp")+8] = arg0;
+//	printf("\n\n");
+//}
+//
+//uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:pipe2 /* comm=="erl_child_setup" || comm=="beam.smp" */ {
+//	printf("-------------------------\n");
+//	@tmp_rsp[reg("sp")+8] = arg0;
+//}
+//
+//uretprobe:/opt/scone/lib/libc.scone-x86_64.so.1:pipe /* comm=="erl_child_setup" || comm=="beam.smp" */ {
+//	$arg_addr = (struct pipe_arg*) @tmp_rsp[reg("sp")];
+//	printf("%ld pid %s %d pipe  fd:{%d,%d}\n",nsecs,comm,pid, $arg_addr->a0, $arg_addr->a1);
+//	printf("=========================\n");
+//	delete(@tmp_rsp[reg("sp")]);
+//}
+//
+//uretprobe:/opt/scone/lib/libc.scone-x86_64.so.1:pipe2 /* comm=="erl_child_setup" || comm=="beam.smp" */ {
+//	$arg_addr = (struct pipe_arg*) @tmp_rsp[reg("sp")];
+//	printf("%ld pid %s %d pipe2 fd:{%d,%d}\n", nsecs,comm,pid, $arg_addr->a0, $arg_addr->a1);
+//	printf("=========================\n");
+//	delete(@tmp_rsp[reg("sp")]);
+//}
+//
+//uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:dup /* comm=="erl_child_setup" || comm=="beam.smp" */ {
+//	printf("-------------------------\n");
+//	@dup_scone0[reg("sp")+8] = arg0;
+//	printf("\n\n");
+//}
+//
+//uretprobe:/opt/scone/lib/libc.scone-x86_64.so.1:dup /* comm=="erl_child_setup" || comm=="beam.smp" */ {
+//	$arg = @dup_scone0[reg("sp")] ;
+//	printf("%ld %s pid %d dup fd:%d retval:%d\n",nsecs, comm, pid, $arg, retval);
+//	delete(@dup_scone0[reg("sp")]);
+//}
+//uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:dup2 /* comm=="erl_child_setup" || comm=="beam.smp" */ {
+//	printf("-------------------------\n");
+//	@dup2_scone0[reg("sp")+8] = arg0;
+//	@dup2_scone1[reg("sp")+8] = arg1;
+//	printf("\n\n");
+//}
+//uretprobe:/opt/scone/lib/libc.scone-x86_64.so.1:dup2 /* comm=="erl_child_setup" || comm=="beam.smp" */ {
+//	$arg0 = @dup2_scone0[reg("sp")] ;
+//	$arg1 = @dup2_scone1[reg("sp")] ;
+//	printf("%ld %s pid %d dup2 fd:%d-->%d retval:%d\n",nsecs, comm, pid, $arg0,$arg1, retval);
+//	delete(@dup2_scone0[reg("sp")]) ;
+//	delete(@dup2_scone1[reg("sp")]) ;
+//}
+//
+uprobe:/opt/scone/lib/libc.scone-x86_64.so.1:read / comm=="erl_child_setup" / {
+	printf("%lx %s  pid %d requesting to read from fd %d\n",nsecs,comm,pid,arg0);
+}
+
+//uretprobe:/opt/scone/lib/libc.scone-x86_64.so.1:read/ comm=="erl_child_setup" / {
+//	printf("-------------------------\n");
+//	$arg_addr = @tmp_rsp[reg("sp")];
+//	printf("%ld pid %s %d scone read return value:{%d}  fd %d\n",nsecs,comm,pid,retval,$arg_addr);
+//	delete(@tmp_rsp[reg("sp")]);
+//}
