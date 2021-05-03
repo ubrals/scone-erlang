@@ -56,7 +56,9 @@ RUN sudo chown -Rf builder:abuild progs; \
 	sudo chmod go+w progs; \
 	cd progs; \
 	SCONE_HEAP=2G SCONE_FORK=1 /opt/erlang/bin/erlc helloworld.erl \
-	|| echo;
+	|| echo; \
+	SCONE_HEAP=2G SCONE_FORK=1 /opt/erlang/bin/erlc primality.erl \
+	|| true;
 
 USER builder
 WORKDIR /home/builder/progs
